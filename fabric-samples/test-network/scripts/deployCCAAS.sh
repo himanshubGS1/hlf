@@ -175,10 +175,10 @@ buildDockerImages
 ## package the chaincode
 packageChaincode
 
-## Install chaincode on peer0.org1 and peer0.org2
-infoln "Installing chaincode on peer0.org1..."
+## Install chaincode on gs1Mexico and gs1UK
+infoln "Installing chaincode on gs1Mexico..."
 installChaincode 1
-infoln "Install chaincode on peer0.org2..."
+infoln "Install chaincode on gs1UK..."
 installChaincode 2
 
 resolveSequence
