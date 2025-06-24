@@ -1,0 +1,48 @@
+{
+	"name": "test-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "exploreradmin",
+			"password": "exploreradminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "Org1MSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"mychannel": {
+			"peers": {
+				"gs1Mexico": {}
+			}
+		}
+	},
+	"organizations": {
+		"Org1MSP": {
+			"mspid": "Org1MSP",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/48007ceeb8f860d51c3468f852e5fa0f853d79373d19039db7f8a41b274e371f_sk"
+			},
+			"peers": ["gs1Mexico"],
+			"signedCert": {
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"gs1Mexico": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/peers/gs1Mexico/tls/ca.crt"
+			},
+			"url": "grpcs://gs1Mexico:7051"
+		}
+	}
+}
