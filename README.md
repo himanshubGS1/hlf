@@ -4,8 +4,9 @@ This repository contains a custom Fabric test network with descriptive node name
 
 ## Starting the network
 
-1. Install the Fabric binaries if you have not done so. From the `fabric-samples` directory run `./scripts/bootstrap.sh` (see the Fabric documentation for details).
-2. Bring up the network and create a channel:
+1. Clone this repository and change into the project directory.
+2. Install the Fabric binaries if you have not done so. From the `fabric-samples` directory run `./scripts/bootstrap.sh` (see the Fabric documentation for details).
+3. Bring up the network and create a channel:
 
 ```bash
 cd fabric-samples/test-network
@@ -31,8 +32,7 @@ docker exec cli peer chaincode query -C mychannel -n vcchaincode -c '{"Args":["G
 
 ## Running Hyperledger Explorer
 
-Explorer is configured under the `explorer` folder.
-Run it after the network is up:
+Explorer is configured under the `explorer` folder. Run it after the network is up:
 
 ```bash
 cd ../../explorer
@@ -46,11 +46,11 @@ Visit [http://localhost:8080](http://localhost:8080) to view the network.
 
 ## UI API server and Streamlit app
 
-The `ui` directory contains helper scripts and a simple application.
-Enroll the admin identity and register an application user, then start the API server and the Streamlit frontend:
+The `ui` directory contains helper scripts and a simple application. Install the dependencies, enroll the admin identity and register a user, then start the API server:
 
 ```bash
 cd ../ui
+npm install
 node enrollAdmin.js
 node registerUser.js
 node apiserver.js      # listens on http://localhost:8090
@@ -65,6 +65,12 @@ In another terminal run:
 
 ```bash
 streamlit run app.py
+```
+
+The UI requires Python packages including `streamlit` and `requests`. You can install them using:
+
+```bash
+pip install streamlit requests
 ```
 
 The web UI will connect to the API server and interact with the deployed chaincode.
