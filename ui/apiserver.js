@@ -7,9 +7,12 @@ const fs = require('fs');
 const path = require('path');
 
 const walletPath = path.join(__dirname, 'wallet');
-const ccpPath = path.resolve(__dirname, '..', 'fabric-samples', 'test-network',
+const generatedCcpPath = path.resolve(__dirname, '..', 'fabric-samples', 'test-network',
   'organizations', 'peerOrganizations', 'org1.example.com',
   'connection-org1.json');
+const bundledCcpPath = path.join(__dirname, 'connection-org1.json');
+const ccpPath = fs.existsSync(generatedCcpPath) ? generatedCcpPath : bundledCcpPath;
+console.log(`Using connection profile: ${ccpPath}`);
 const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 const app = express();
 app.use(bodyParser.json());
