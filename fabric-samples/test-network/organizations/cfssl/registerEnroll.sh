@@ -55,7 +55,7 @@ function peer_cert() {
 
 function orderer_cert() {
     TYPE=$1 #orderer user
-    USER=$2 #orderer.example.com
+    USER=$2 #gs1Global
 
     mkdir -p organizations/ordererOrganizations/example.com/ca
     mkdir -p organizations/ordererOrganizations/example.com/msp/cacerts

@@ -37,9 +37,9 @@ Organizations:
         Type: Signature
         Rule: "OR('OrdererMSP.admin')"
     OrdererEndpoints:
-      - orderer.example.com:7050
-      - orderer2.example.com:7052
-      - orderer3.example.com:7056
+      - gs1Global:7050
+      - gs1Canada:7052
+      - gs1US:7056
       - orderer4.example.com:7058
   - &Org1
     # DefaultOrg defines the organization which is used in the sampleconfig
@@ -277,26 +277,26 @@ Profiles:
         LeaderHeartbeatCount: 10
       ConsenterMapping:
         - ID: 1
-          Host: orderer.example.com
+          Host: gs1Global
           Port: 7050
           MSPID: OrdererMSP
-          Identity: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/signcerts/orderer.example.com-cert.pem
-          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
-          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+          Identity: ../organizations/ordererOrganizations/example.com/orderers/gs1Global/msp/signcerts/gs1Global-cert.pem
+          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Global/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Global/tls/server.crt
         - ID: 2
-          Host: orderer2.example.com
+          Host: gs1Canada
           Port: 7052
           MSPID: OrdererMSP
-          Identity: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/signcerts/orderer2.example.com-cert.pem
-          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
+          Identity: ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/msp/signcerts/gs1Canada-cert.pem
+          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/tls/server.crt
         - ID: 3
-          Host: orderer3.example.com
+          Host: gs1US
           Port: 7056
           MSPID: OrdererMSP
-          Identity: ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/signcerts/orderer3.example.com-cert.pem
-          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
+          Identity: ../organizations/ordererOrganizations/example.com/orderers/gs1US/msp/signcerts/gs1US-cert.pem
+          ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1US/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1US/tls/server.crt
         - ID: 4
           Host: orderer4.example.com
           Port: 7058

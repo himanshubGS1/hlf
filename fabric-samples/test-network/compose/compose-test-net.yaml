@@ -6,11 +6,11 @@
 version: '3.7'
 
 volumes:
-  orderer.example.com:
-  orderer2.example.com:
-  orderer3.example.com:
-  peer0.org1.example.com:
-  peer0.org2.example.com:
+  gs1Global:
+  gs1Canada:
+  gs1US:
+  gs1Mexico:
+  gs1UK:
 
 networks:
   test:
@@ -18,8 +18,8 @@ networks:
 
 services:
 
-  orderer.example.com:
-    container_name: orderer.example.com
+  gs1Global:
+    container_name: gs1Global
     image: hyperledger/fabric-orderer:latest
     labels:
       service: hyperledger-fabric
@@ -45,14 +45,14 @@ services:
       - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.example.com:9443
+      - ORDERER_OPERATIONS_LISTENADDRESS=gs1Global:9443
       - ORDERER_METRICS_PROVIDER=prometheus
     working_dir: /root
     command: orderer
     volumes:
-        - ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp:/var/hyperledger/orderer/msp
-        - ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/:/var/hyperledger/orderer/tls
-        - orderer.example.com:/var/hyperledger/production/orderer
+        - ../organizations/ordererOrganizations/example.com/orderers/gs1Global/msp:/var/hyperledger/orderer/msp
+        - ../organizations/ordererOrganizations/example.com/orderers/gs1Global/tls/:/var/hyperledger/orderer/tls
+        - gs1Global:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
       - 7053:7053
@@ -60,8 +60,8 @@ services:
     networks:
       - test
   
-  orderer2.example.com:
-    container_name: orderer2.example.com
+  gs1Canada:
+    container_name: gs1Canada
     image: hyperledger/fabric-orderer:latest
     labels:
       service: hyperledger-fabric
@@ -86,14 +86,14 @@ services:
       - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7055
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer2.example.com:9446
+      - ORDERER_OPERATIONS_LISTENADDRESS=gs1Canada:9446
       - ORDERER_METRICS_PROVIDER=prometheus
     working_dir: /root
     command: orderer
     volumes:
-      - ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
-      - ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/:/var/hyperledger/orderer/tls
-      - orderer2.example.com:/var/hyperledger/production/orderer
+      - ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/msp:/var/hyperledger/orderer/msp
+      - ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/tls/:/var/hyperledger/orderer/tls
+      - gs1Canada:/var/hyperledger/production/orderer
     ports:
       - 7052:7052
       - 7055:7055
@@ -101,8 +101,8 @@ services:
     networks:
       - test
 
-  orderer3.example.com:
-    container_name: orderer3.example.com
+  gs1US:
+    container_name: gs1US
     image: hyperledger/fabric-orderer:latest
     labels:
       service: hyperledger-fabric
@@ -127,14 +127,14 @@ services:
       - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7057
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer3.example.com:9447
+      - ORDERER_OPERATIONS_LISTENADDRESS=gs1US:9447
       - ORDERER_METRICS_PROVIDER=prometheus
     working_dir: /root
     command: orderer
     volumes:
-      - ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/msp:/var/hyperledger/orderer/msp
-      - ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/:/var/hyperledger/orderer/tls
-      - orderer3.example.com:/var/hyperledger/production/orderer
+      - ../organizations/ordererOrganizations/example.com/orderers/gs1US/msp:/var/hyperledger/orderer/msp
+      - ../organizations/ordererOrganizations/example.com/orderers/gs1US/tls/:/var/hyperledger/orderer/tls
+      - gs1US:/var/hyperledger/production/orderer
     ports:
       - 7056:7056
       - 7057:7057
@@ -142,8 +142,8 @@ services:
     networks:
       - test
 
-  peer0.org1.example.com:
-    container_name: peer0.org1.example.com
+  gs1Mexico:
+    container_name: gs1Mexico
     image: hyperledger/fabric-peer:latest
     labels:
       service: hyperledger-fabric
@@ -157,22 +157,22 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variables
-      - CORE_PEER_ID=peer0.org1.example.com
-      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+      - CORE_PEER_ID=gs1Mexico
+      - CORE_PEER_ADDRESS=gs1Mexico:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
+      - CORE_PEER_CHAINCODEADDRESS=gs1Mexico:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=gs1Mexico:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=gs1Mexico:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.org1.example.com:9444
+      - CORE_OPERATIONS_LISTENADDRESS=gs1Mexico:9444
       - CORE_METRICS_PROVIDER=prometheus
       - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0org1"}
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     volumes:
-      - ../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com:/etc/hyperledger/fabric
-      - peer0.org1.example.com:/var/hyperledger/production
+      - ../organizations/peerOrganizations/org1.example.com/peers/gs1Mexico:/etc/hyperledger/fabric
+      - gs1Mexico:/var/hyperledger/production
     working_dir: /root
     command: peer node start
     ports:
@@ -181,8 +181,8 @@ services:
     networks:
       - test
 
-  peer0.org2.example.com:
-    container_name: peer0.org2.example.com
+  gs1UK:
+    container_name: gs1UK
     image: hyperledger/fabric-peer:latest
     labels:
       service: hyperledger-fabric
@@ -196,22 +196,22 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variables
-      - CORE_PEER_ID=peer0.org2.example.com
-      - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
+      - CORE_PEER_ID=gs1UK
+      - CORE_PEER_ADDRESS=gs1UK:9051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.example.com:9052
+      - CORE_PEER_CHAINCODEADDRESS=gs1UK:9052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:9051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=gs1UK:9051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=gs1UK:9051
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.org2.example.com:9445
+      - CORE_OPERATIONS_LISTENADDRESS=gs1UK:9445
       - CORE_METRICS_PROVIDER=prometheus
       - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0org2"}
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     volumes:
-      - ../organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com:/etc/hyperledger/fabric
-      - peer0.org2.example.com:/var/hyperledger/production
+      - ../organizations/peerOrganizations/org2.example.com/peers/gs1UK:/etc/hyperledger/fabric
+      - gs1UK:/var/hyperledger/production
     working_dir: /root
     command: peer node start
     ports:

@@ -37,9 +37,9 @@ Organizations:
         Type: Signature
         Rule: "OR('OrdererMSP.admin')"
     OrdererEndpoints:
-      - orderer.example.com:7050
-      - orderer2.example.com:7052
-      - orderer3.example.com:7056
+      - gs1Global:7050
+      - gs1Canada:7052
+      - gs1US:7056
   - &Org1
     # DefaultOrg defines the organization which is used in the sampleconfig
     # of the fabric.git development environment
@@ -185,9 +185,9 @@ Orderer: &OrdererDefaults
   # as TLS validation.  The preferred way to specify orderer addresses is now
   # to include the OrdererEndpoints item in your org definition
   Addresses:
-    - orderer.example.com:7050
-    - orderer2.example.com:7052
-    - orderer3.example.com:7056
+    - gs1Global:7050
+    - gs1Canada:7052
+    - gs1US:7056
   # Batch Timeout: The amount of time to wait before creating a batch
   BatchTimeout: 2s
   # Batch Size: Controls the number of messages batched into a block
@@ -268,18 +268,18 @@ Profiles:
       OrdererType: etcdraft
       EtcdRaft:
         Consenters:
-          - Host: orderer.example.com
+          - Host: gs1Global
             Port: 7050
-            ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
-            ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
-          - Host: orderer2.example.com
+            ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Global/tls/server.crt
+            ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Global/tls/server.crt
+          - Host: gs1Canada
             Port: 7052
-            ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-            ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-          - Host: orderer3.example.com
+            ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/tls/server.crt
+            ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1Canada/tls/server.crt
+          - Host: gs1US
             Port: 7056
-            ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-            ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
+            ClientTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1US/tls/server.crt
+            ServerTLSCert: ../organizations/ordererOrganizations/example.com/orderers/gs1US/tls/server.crt
       Organizations:
         - *OrdererOrg
       Capabilities: *OrdererCapabilities
