@@ -7,7 +7,10 @@ const fs = require('fs');
 const path = require('path');
 
 const walletPath = path.join(__dirname, 'wallet');
-const ccp = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'connection-org1.json'), 'utf8'));
+const ccpPath = path.resolve(__dirname, '..', 'fabric-samples', 'test-network',
+  'organizations', 'peerOrganizations', 'org1.example.com',
+  'connection-org1.json');
+const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 const app = express();
 app.use(bodyParser.json());
 app.use((req, res, next) => { console.log(`${new Date().toISOString()} ${req.method} ${req.url}`); next(); });

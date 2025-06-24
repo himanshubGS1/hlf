@@ -13,7 +13,10 @@ if (fs.existsSync(walletPath)) {
 
 async function enrollAdmin() {
   console.log('→ Enrolling admin');
-  const ccp = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'connection-org1.json'), 'utf8'));
+  const ccpPath = path.resolve(__dirname, '..', 'fabric-samples', 'test-network',
+    'organizations', 'peerOrganizations', 'org1.example.com',
+    'connection-org1.json');
+  const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
   const caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
   const ca = new FabricCAServices(caInfo.url, { trustedRoots: caInfo.tlsCACerts.pem, verify: false }, caInfo.caName);
   const wallet = await Wallets.newFileSystemWallet(walletPath);
