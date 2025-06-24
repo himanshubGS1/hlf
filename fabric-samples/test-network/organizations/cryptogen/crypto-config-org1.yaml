@@ -46,12 +46,10 @@ PeerOrgs:
     # sections and the aggregate nodes will be created for you.  Take care with
     # name collisions
     # ---------------------------------------------------------------------------
-    Template:
-      Count: 1
-      SANS:
-        - localhost
-      # Start: 5
-      # Hostname: {{.Prefix}}{{.Index}} # default
+    Specs:
+      - Hostname: gs1Mexico
+        SANS:
+          - localhost
     # ---------------------------------------------------------------------------
     # "Users"
     # ---------------------------------------------------------------------------

@@ -19,15 +19,12 @@ OrdererOrgs:
     # "Specs" - See PeerOrgs for complete description
     # ---------------------------------------------------------------------------
     Specs:
-      - Hostname: orderer
+      - Hostname: gs1Global
         SANS:
           - localhost
-      - Hostname: orderer2
+      - Hostname: gs1Canada
         SANS:
           - localhost
-      - Hostname: orderer3
-        SANS:
-          - localhost
-      - Hostname: orderer4
+      - Hostname: gs1US
         SANS:
           - localhost
