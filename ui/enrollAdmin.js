@@ -1,30 +1,37 @@
-// enrollAdmin.js
 'use strict';
 const FabricCAServices = require('fabric-ca-client');
-const { Wallets } = require('fabric-network');
-const fs = require('fs');
-const path = require('path');
+const { Wallets }       = require('fabric-network');
+const fs                = require('fs');
+const path              = require('path');
 
-const walletPath = path.join(__dirname, 'wallet');
-if (fs.existsSync(walletPath)) {
-  fs.rmSync(walletPath, { recursive: true, force: true });
-  console.log('Removed existing wallet');
-}
-
-async function enrollAdmin() {
-  console.log('→ Enrolling admin');
-  const ccpPath = path.resolve(__dirname, '..', 'fabric-samples', 'test-network',
-    'organizations', 'peerOrganizations', 'org1.example.com',
-    'connection-org1.json');
+async function main() {
+  const walletPath = path.join(__dirname, 'wallet');
+  if (fs.existsSync(walletPath)) {
+    fs.rmSync(walletPath, { recursive: true, force: true });
+    console.log('✔ Cleared existing wallet');
+  }
+  const ccpPath = path.resolve(__dirname, 'connection-org1.json');
   const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+
   const caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
-  const ca = new FabricCAServices(caInfo.url, { trustedRoots: caInfo.tlsCACerts.pem, verify: false }, caInfo.caName);
+  const ca = new FabricCAServices(
+    caInfo.url,
+    { trustedRoots: caInfo.tlsCACerts.pem, verify: false },
+    caInfo.caName
+  );
+
   const wallet = await Wallets.newFileSystemWallet(walletPath);
   if (await wallet.get('admin')) {
-    console.log('Admin already enrolled');
+    console.log('⚠️  Admin already enrolled');
     return;
   }
-  const enrollment = await ca.enroll({ enrollmentID: 'admin', enrollmentSecret: 'adminpw' });
+
+  console.log('→ Enrolling admin user "admin"');
+  const enrollment = await ca.enroll({
+    enrollmentID: 'admin',
+    enrollmentSecret: 'adminpw'
+  });
+
   const identity = {
     credentials: {
       certificate: enrollment.certificate,
@@ -33,9 +40,12 @@ async function enrollAdmin() {
     mspId: 'Org1MSP',
     type: 'X.509'
   };
+
   await wallet.put('admin', identity);
-  console.log('Admin enrolled successfully');
+  console.log('✔ Admin enrolled and imported into wallet');
 }
 
-enrollAdmin()
-  .catch(err => { console.error('Enrollment failed:', err); process.exit(1); });
+main().catch(err => {
+  console.error('❌ Failed to enroll admin:', err);
+  process.exit(1);
+});

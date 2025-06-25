@@ -1,49 +1,64 @@
 {
-    "name": "test-network-org1",
-    "version": "1.0.0",
-    "client": {
-        "organization": "Org1",
-        "connection": {
-            "timeout": {
-                "peer": {
-                    "endorser": "300"
-                }
-            }
-        }
-    },
-    "organizations": {
-        "Org1": {
-            "mspid": "Org1MSP",
-            "peers": [
-                "gs1Mexico"
-            ],
-            "certificateAuthorities": [
-                "ca.org1.example.com"
-            ]
-        }
-    },
-    "peers": {
-        "gs1Mexico": {
-            "url": "grpcs://localhost:7051",
-            "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICJzCCAc2gAwIBAgIUAT5AiQa6PqVRTczcBlS5aOt01B0wCgYIKoZIzj0EAwIw\ncDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH\nEwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMjUwNjIzMTkwNDAwWhcNNDAwNjE5MTkwNDAw\nWjBwMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzANBgNV\nBAcTBkR1cmhhbTEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMT\nY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABCgv\nV4s/BN/ZabgnNg4lq6AVQTws5U11ssBH4AJjG1NzLCAwVEDM6mWqa9PUjEoLVVp5\nIBUKKoxe/roK2YFJqhGjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG\nAQH/AgEBMB0GA1UdDgQWBBRlLb4drmJrfMGzVE90h0vDc/5FgDAKBggqhkjOPQQD\nAgNIADBFAiEA9xYf5THmn2QWxgvOCzqkTtN/+G+JY+LZExDVIMwYSk8CICG9fjAp\nm6NqQuuDAR5njFxeuIsvVfeNjE4AXE2l48EZ\n-----END CERTIFICATE-----\n"
-            },
-            "grpcOptions": {
-                "ssl-target-name-override": "gs1Mexico",
-                "hostnameOverride": "gs1Mexico"
-            }
-        }
-    },
-    "certificateAuthorities": {
-        "ca.org1.example.com": {
-            "url": "https://localhost:7054",
-            "caName": "ca-org1",
-            "tlsCACerts": {
-                "pem": ["-----BEGIN CERTIFICATE-----\nMIICJzCCAc2gAwIBAgIUAT5AiQa6PqVRTczcBlS5aOt01B0wCgYIKoZIzj0EAwIw\ncDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH\nEwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMjUwNjIzMTkwNDAwWhcNNDAwNjE5MTkwNDAw\nWjBwMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzANBgNV\nBAcTBkR1cmhhbTEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMT\nY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABCgv\nV4s/BN/ZabgnNg4lq6AVQTws5U11ssBH4AJjG1NzLCAwVEDM6mWqa9PUjEoLVVp5\nIBUKKoxe/roK2YFJqhGjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG\nAQH/AgEBMB0GA1UdDgQWBBRlLb4drmJrfMGzVE90h0vDc/5FgDAKBggqhkjOPQQD\nAgNIADBFAiEA9xYf5THmn2QWxgvOCzqkTtN/+G+JY+LZExDVIMwYSk8CICG9fjAp\nm6NqQuuDAR5njFxeuIsvVfeNjE4AXE2l48EZ\n-----END CERTIFICATE-----\n"]
-            },
-            "httpOptions": {
-                "verify": false
-            }
-        }
+  "name": "vc-test-network",
+  "version": "1.0.0",
+  "client": {
+    "organization": "Org1MSP",
+    "connection": {
+      "timeout": { "peer": { "endorser": "300" } }
     }
+  },
+  "organizations": {
+    "Org1MSP": {
+      "mspid": "Org1MSP",
+      "peers": ["gs1Mexico.org1.example.com"],
+      "certificateAuthorities": ["ca.org1.example.com"]
+    }
+  },
+  "peers": {
+    "gs1Mexico.org1.example.com": {
+      "url": "grpcs://localhost:7051",
+      "tlsCACerts": {
+        "path": "/mnt/c/Users/HimanshuB/Downloads/demo/hlf/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/gs1Mexico/tls/ca.crt"
+      },
+      "grpcOptions": {
+        "ssl-target-name-override": "gs1Mexico",
+        "hostnameOverride": "gs1Mexico"
+      }
+    }
+  },
+  "orderers": {
+    "gs1Global": {
+      "url": "grpcs://localhost:7050",
+      "tlsCACerts": {
+        "path": "/mnt/c/Users/HimanshuB/Downloads/demo/hlf/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/gs1Global/tls/ca.crt"
+      },
+      "grpcOptions": {
+        "ssl-target-name-override": "gs1Global",
+        "hostnameOverride": "gs1Global"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.org1.example.com": {
+      "url": "https://localhost:7054",
+      "caName": "ca-org1",
+      "tlsCACerts": {
+        "path": "/mnt/c/Users/HimanshuB/Downloads/demo/hlf/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/msp/tlscacerts/ca.crt"
+      },
+      "httpOptions": { "verify": false }
+    }
+  },
+  "channels": {
+    "mychannel": {
+      "orderers": ["gs1Global"],
+      "peers": {
+        "gs1Mexico.org1.example.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        }
+      }
+    }
+  }
 }

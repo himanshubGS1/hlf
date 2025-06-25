@@ -1,1 +1,4 @@
 ui/node_modules
+ui/venv
+ui/wallet
+explorer/organizations

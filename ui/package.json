@@ -1,18 +1,15 @@
 {
-  "name": "ui",
+  "name": "vc-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "enrollAdmin": "node enrollAdmin.js",
+    "registerUser": "node registerUser.js",
+    "start": "node apiserver.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^2.2.0",
     "express": "^5.1.0",
-    "fabric-ca-client": "^2.2.20",
-    "fabric-network": "^2.2.20"
+    "body-parser": "^2.2.0",
+    "fabric-network": "^2.2.20",
+    "fabric-ca-client": "^2.2.20"
   }
 }

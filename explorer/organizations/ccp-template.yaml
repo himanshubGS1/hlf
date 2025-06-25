@@ -11,18 +11,18 @@ organizations:
   Org${ORG}:
     mspid: Org${ORG}MSP
     peers:
-    - peer0.org${ORG}.example.com
+  - ${P0HOST}.org${ORG}.example.com
     certificateAuthorities:
     - ca.org${ORG}.example.com
 peers:
-  peer0.org${ORG}.example.com:
+  ${P0HOST}.org${ORG}.example.com:
     url: grpcs://localhost:${P0PORT}
     tlsCACerts:
       pem: |
           ${PEERPEM}
     grpcOptions:
-      ssl-target-name-override: peer0.org${ORG}.example.com
-      hostnameOverride: peer0.org${ORG}.example.com
+      ssl-target-name-override: ${P0HOST}.org${ORG}.example.com
+      hostnameOverride: ${P0HOST}.org${ORG}.example.com
 certificateAuthorities:
   ca.org${ORG}.example.com:
     url: https://localhost:${CAPORT}

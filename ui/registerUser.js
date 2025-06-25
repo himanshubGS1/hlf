@@ -1,86 +1,75 @@
 'use strict';
+
 const FabricCAServices = require('fabric-ca-client');
-const { Wallets }        = require('fabric-network');
-const fs                 = require('fs');
-const path               = require('path');
+const { Wallets }      = require('fabric-network');
+const fs               = require('fs');
+const path             = require('path');
 
-const walletPath = path.join(__dirname, 'wallet');
+async function main() {
+  // Read username and secret from command line
+  const [, , userId, secret] = process.argv;
+  if (!userId || !secret) {
+    console.error('Usage: node registerUser.js <userId> <secret>');
+    process.exit(1);
+  }
 
-async function registerUser() {
-  console.log('→ Registering appUser');
-  const ccpPath = path.resolve(__dirname, '..', 'fabric-samples', 'test-network',
-    'organizations', 'peerOrganizations', 'org1.example.com',
-    'connection-org1.json');
-  const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+  const walletPath = path.join(__dirname, 'wallet');
+  const ccpPath    = path.resolve(__dirname, 'connection-org1.json');
+  const ccp        = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+
+  // Set up CA client
   const caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
   const ca     = new FabricCAServices(
     caInfo.url,
     { trustedRoots: caInfo.tlsCACerts.pem, verify: false },
     caInfo.caName
   );
-  const wallet = await Wallets.newFileSystemWallet(walletPath);
 
-  // enrollAdmin.js must have run first, so admin is already in wallet
+  // Set up wallet
+  const wallet = await Wallets.newFileSystemWallet(walletPath);
   const adminIdentity = await wallet.get('admin');
   if (!adminIdentity) {
-    console.error('Admin identity not found in wallet; run enrollAdmin.js first');
+    console.error('❌ Admin identity not found; run `npm run enrollAdmin` first');
     process.exit(1);
   }
 
-  // skip if appUser already in wallet
-  if (await wallet.get('appUser')) {
-    console.log('appUser already enrolled in wallet');
+  // Skip if this user already exists
+  if (await wallet.get(userId)) {
+    console.log(`⚠️  Identity for "${userId}" already exists in the wallet`);
     return;
   }
 
-  // build user context from admin identity
+  // Build an admin user context for registration
   const provider  = wallet.getProviderRegistry().getProvider(adminIdentity.type);
   const adminUser = await provider.getUserContext(adminIdentity, 'admin');
 
-  // attempt registration with fixed secret
-  const FIXED_SECRET = 'appUserpw';
-  let secret;
-  try {
-    secret = await ca.register(
-      {
-        affiliation:    'org1.department1',
-        enrollmentID:   'appUser',
-        role:           'client',
-        enrollmentSecret: FIXED_SECRET
-      },
-      adminUser
-    );
-    console.log(`appUser registered with secret: ${secret}`);
-  } catch (err) {
-    if (err.errors && err.errors[0].code === 74) {
-      console.log('appUser already registered in CA; using known secret');
-      secret = FIXED_SECRET;
-    } else {
-      console.error('Registration failed:', err);
-      process.exit(1);
-    }
-  }
+  // Register the new user
+  await ca.register({
+    affiliation:    'org1.department1',
+    enrollmentID:   userId,
+    role:           'client',
+    enrollmentSecret: secret
+  }, adminUser);
+  console.log(`→ Registered "${userId}" with secret "${secret}"`);
 
-  // enroll & import into wallet
-  try {
-    const enrollment = await ca.enroll({ enrollmentID: 'appUser', enrollmentSecret: secret });
-    const userIdentity = {
-      credentials: {
-        certificate: enrollment.certificate,
-        privateKey:  enrollment.key.toBytes()
-      },
-      mspId: 'Org1MSP',
-      type:  'X.509'
-    };
-    await wallet.put('appUser', userIdentity);
-    console.log('appUser enrolled and imported into wallet');
-  } catch (err) {
-    console.error('Enrollment failed:', err);
-    process.exit(1);
-  }
+  // Enroll and import into the wallet
+  const enrollment = await ca.enroll({
+    enrollmentID: userId,
+    enrollmentSecret: secret
+  });
+  const userIdentity = {
+    credentials: {
+      certificate: enrollment.certificate,
+      privateKey:  enrollment.key.toBytes()
+    },
+    mspId: 'Org1MSP',
+    type:  'X.509'
+  };
+  await wallet.put(userId, userIdentity);
+  console.log(`✔ "${userId}" enrolled and imported into the wallet`);
 }
 
-registerUser().catch(err => {
-  console.error('Unexpected error:', err);
+main().catch(err => {
+  console.error('❌ Failed to register user:', err);
   process.exit(1);
 });
